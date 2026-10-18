@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para ti 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rosa:#ff5e8a; --rosa2:#ff9ab5; --crema:#fff5f7; --vino:#7a1f3d; --oro:#ffd27a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Quicksand',sans-serif;color:var(--vino);
+  background:linear-gradient(160deg,#ffe3ec 0%,#ffd1e0 40%,#e9c7ff 100%);
+  background-attachment:fixed;min-height:100vh;overflow-x:hidden;
+}
+canvas#hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+h1,h2,.script{font-family:'Dancing Script',cursive}
+
+/* Intro */
+#intro{
+  position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#ff8fb1,#c65bcf);color:#fff;text-align:center;cursor:pointer;
+  transition:opacity 1s,visibility 1s;padding:20px;
+}
+#intro.hide{opacity:0;visibility:hidden}
+.sobre{font-size:6rem;animation:latir 1.4s infinite}
+#intro h1{font-size:2.6rem;margin:10px 0}
+#intro p{opacity:.9}
+@keyframes latir{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+
+/* Layout */
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 18px 80px}
+section{padding:70px 0 20px;text-align:center}
+section h2{font-size:2.6rem;color:var(--rosa);margin-bottom:8px}
+section .sub{opacity:.75;margin-bottom:28px}
+
+/* Hero */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px}
+#hero h1{font-size:clamp(2.8rem,10vw,5.5rem);color:var(--rosa);text-shadow:0 4px 20px #fff8}
+#typed{font-size:1.25rem;min-height:3.2em;margin-top:14px;max-width:560px}
+.flecha{margin-top:30px;font-size:2rem;animation:bota 1.6s infinite;text-decoration:none}
+@keyframes bota{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+
+/* Contador */
+.contador{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.caja{background:#fff9;backdrop-filter:blur(8px);border-radius:20px;padding:16px 20px;min-width:92px;box-shadow:0 8px 24px #ff5e8a33}
+.caja b{display:block;font-size:2.2rem;color:var(--rosa)}
+.caja span{font-size:.85rem;opacity:.8}
+
+/* Cartas */
+.cartas{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.carta{perspective:900px;height:150px;cursor:pointer}
+.carta .in{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+.carta.abierta .in{transform:rotateY(180deg)}
+.cara{position:absolute;inset:0;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:14px;backface-visibility:hidden;box-shadow:0 8px 22px #ff5e8a40}
+.frente{background:linear-gradient(135deg,var(--rosa),var(--rosa2));color:#fff;font-size:2.6rem}
+.dorso{background:#fff;transform:rotateY(180deg);font-size:.95rem;font-weight:500;line-height:1.35}
+
+/* Botón */
+.btn{
+  background:linear-gradient(135deg,var(--rosa),#ff7aa5);color:#fff;border:0;border-radius:50px;
+  padding:14px 30px;font:600 1.05rem 'Quicksand',sans-serif;cursor:pointer;box-shadow:0 8px 22px #ff5e8a66;transition:transform .2s
+}
+.btn:hover{transform:scale(1.07)}
+.btn:active{transform:scale(.96)}
+#razon{margin:24px auto 0;max-width:520px;min-height:80px;font-size:1.3rem;font-family:'Dancing Script',cursive;font-size:1.7rem}
+
+/* Galería */
+.galeria{columns:3 220px;column-gap:14px}
+.foto{break-inside:avoid;margin-bottom:14px;background:#fff;padding:10px 10px 14px;border-radius:12px;box-shadow:0 8px 24px #0002;cursor:pointer;transition:transform .3s;position:relative}
+.foto:nth-child(odd){transform:rotate(-1.6deg)}
+.foto:nth-child(even){transform:rotate(1.6deg)}
+.foto:hover{transform:rotate(0) scale(1.04);z-index:2}
+.foto img,.foto video{width:100%;display:block;border-radius:6px;background:#ffe0ea}
+.foto p{margin-top:8px;font-family:'Dancing Script',cursive;font-size:1.25rem}
+.vacia{height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ffe0ea;border-radius:6px;font-size:.85rem;gap:6px;color:#b05575}
+.vacia i{font-size:2.4rem;font-style:normal}
+
+/* Videos */
+.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.vid{background:#fff;border-radius:20px;padding:12px;box-shadow:0 8px 24px #0002}
+.vid video{width:100%;border-radius:12px;background:#000;max-height:420px}
+.vid p{margin-top:8px;font-family:'Dancing Script',cursive;font-size:1.4rem}
+
+/* Final */
+#final{padding-bottom:60px}
+#final .grande{font-size:clamp(2rem,7vw,3.6rem);color:var(--rosa);font-family:'Dancing Script',cursive;margin:18px 0}
+#sorpresa{margin-top:20px;font-size:1.3rem;min-height:3em}
+
+/* Lightbox */
+#lb{position:fixed;inset:0;background:#000d;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column}
+#lb.on{display:flex}
+#lb img{max-width:95%;max-height:80vh;border-radius:10px}
+#lb p{color:#fff;margin-top:12px;font-family:'Dancing Script',cursive;font-size:1.6rem}
+
+/* Música */
+#musica{position:fixed;right:16px;bottom:16px;z-index:50;width:52px;height:52px;border-radius:50%;border:0;background:#fffc;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 14px #0003;display:none}
+
+.heart-pop{position:fixed;pointer-events:none;z-index:300;font-size:1.6rem;animation:sube 1.2s forwards}
+@keyframes sube{to{transform:translateY(-120px) scale(1.6);opacity:0}}
+footer{text-align:center;padding:20px;opacity:.7;font-size:.9rem;position:relative;z-index:1}
+</style>
+</head>
+<body>
+
+<canvas id="hearts"></canvas>
+
+<div id="intro">
+  <div class="sobre">💌</div>
+  <h1>Tengo algo para ti…</h1>
+  <p>Toca para abrir</p>
+</div>
+
+<button id="musica" title="Música">🎵</button>
+
+<main>
+  <section id="hero">
+    <p class="script" style="font-size:1.8rem">Para ti,</p>
+    <h1 id="nombre"></h1>
+    <div id="typed"></div>
+    <a href="#tiempo" class="flecha">💗</a>
+  </section>
+
+  <section id="tiempo">
+    <h2>Nuestro tiempo juntos</h2>
+    <p class="sub" id="desde"></p>
+    <div class="contador" id="contador"></div>
+  </section>
+
+  <section id="mensajes">
+    <h2>Mensajes para ti</h2>
+    <p class="sub">Toca cada corazón 💕</p>
+    <div class="cartas" id="cartas"></div>
+  </section>
+
+  <section id="razones">
+    <h2>Razones por las que te amo</h2>
+    <p class="sub">Y todavía me faltan muchas…</p>
+    <button class="btn" id="btnRazon">Descubrir una razón ✨</button>
+    <div id="razon"></div>
+  </section>
+
+  <section id="fotos">
+    <h2>Nuestros recuerdos</h2>
+    <p class="sub">Toca una foto para verla grande</p>
+    <div class="galeria" id="galeria"></div>
+  </section>
+
+  <section id="videos">
+    <h2>Momentos en video</h2>
+    <p class="sub">Cada uno es mi favorito 🎬</p>
+    <div class="videos" id="videosBox"></div>
+  </section>
+
+  <section id="final">
+    <h2>Una última cosa…</h2>
+    <div class="grande" id="grande"></div>
+    <button class="btn" id="btnFinal">Toca aquí 💘</button>
+    <div id="sorpresa"></div>
+  </section>
+</main>
+
+<footer>Hecho con todo mi amor 💖</footer>
+
+<div id="lb"><img id="lbImg" alt=""><p id="lbTxt"></p></div>
+
+<script>
+/* ============================================================
+   ✏️  PERSONALIZA AQUÍ (todo lo demás funciona solo)
+   ============================================================ */
+const CONFIG = {
+  nombre: "Mi doctorcita",                 // Su nombre o apodo
+  fechaInicio: "2024-05-13",         // Cuándo empezaron (AAAA-MM-DD)
+  textoIntro: [
+    "Desde que llegaste, iluminas mis dias mi lunita.",
+    "Hice esta página pequeñita para decirte lo mucho que te Amooooooo"
+  ],
+  musica: "sanlucas.mp3",                        // Ej: "media/cancion.mp3" (opcional)
+
+  mensajes: [
+    "Eres mi lugar favorito en el mundo ",
+    "Contigo hasta el silencio es bonito ",
+    "Gracias por existir en mi vida ",
+    "Tu sonrisa arregla mis peores días ",
+    "Eres mi casualidad más bonita ",
+    "Me encanta quien soy a tu lado ",
+    "Te elegiría en cada vida ",
+    "Contigo todo es aventura "
+  ],
+
+  razones: [
+    "Por tu sonrisa que ilumina todo.",
+    "Por cómo me haces reír hasta cuando estoy de mal humor.",
+    "Por cuidarme y apoyarme siempre.",
+    "Por tu forma tan única de ser.",
+    "Porque a tu lado me siento en casa.",
+    "Por todos los momentos pequeños que se vuelven enormes contigo.",
+    "Por tu abrazo, que es mi lugar seguro.",
+    "Porque simplemente eres tú. 💗"
+  ],
+
+  // 📸 Fotos: pon tus imágenes en la carpeta "media" junto a este archivo
+  fotos: [
+    { src: "foto1.jpeg", texto: "Nuestro primer día" },
+    { src: "foto2.jpeg", texto: "Qué bonita eres" },
+    { src: "foto3.jpeg", texto: "Aventuras juntos" },
+    { src: "foto4.jpeg", texto: "Mi persona favorita" },
+    { src: "foto5.jpeg", texto: "Siempre contigo" },
+    { src: "foto6.jpeg", texto: "Un día perfecto" }
+  ],
+
+  // 🎬 Videos (mp4)
+  videos: [
+    { src: "video1.mp4", texto: "Nuestro momento" },
+    { src: "video2.mp4", texto: "Mi recuerdo favorito" }
+  ],
+
+  mensajeFinal: "Te amo hoy, mañana y siempre.",
+  sorpresa: "¿Quieres seguir creando recuerdos conmigo? "
+};
+
+/* ============================================================
+   Lógica
+   ============================================================ */
+const $ = s => document.querySelector(s);
+
+// Intro
+let musicaOn = false;
+const audio = CONFIG.musica ? new Audio(CONFIG.musica) : null;
+if (audio) { audio.loop = true; $('#musica').style.display = 'block'; }
+$('#intro').addEventListener('click', () => {
+  $('#intro').classList.add('hide');
+  burst(innerWidth/2, innerHeight/2, 14);
+  if (audio) { audio.play().then(()=>musicaOn=true).catch(()=>{}); }
+  typeText();
+});
+$('#musica').onclick = () => {
+  if (!audio) return;
+  musicaOn ? audio.pause() : audio.play();
+  musicaOn = !musicaOn;
+  $('#musica').textContent = musicaOn ? '🎵' : '🔇';
+};
+
+// Hero
+$('#nombre').textContent = CONFIG.nombre;
+function typeText(){
+  const box = $('#typed'); const full = CONFIG.textoIntro.join(' ');
+  let i = 0; box.textContent = '';
+  const t = setInterval(()=>{ box.textContent += full[i++]; if(i>=full.length) clearInterval(t); }, 45);
+}
+
+// Contador
+const inicio = new Date(CONFIG.fechaInicio + "T00:00:00");
+$('#desde').textContent = "Desde el " + inicio.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+function actualizar(){
+  let diff = Date.now() - inicio.getTime();
+  if (diff < 0) diff = 0;
+  const d = Math.floor(diff/864e5), h = Math.floor(diff/36e5)%24,
+        m = Math.floor(diff/6e4)%60, s = Math.floor(diff/1e3)%60;
+  $('#contador').innerHTML = [[d,'días'],[h,'horas'],[m,'minutos'],[s,'segundos']]
+    .map(([n,l])=>`<div class="caja"><b>${n}</b><span>${l}</span></div>`).join('');
+}
+actualizar(); setInterval(actualizar, 1000);
+
+// Cartas
+$('#cartas').innerHTML = CONFIG.mensajes.map(m =>
+  `<div class="carta"><div class="in"><div class="cara frente">💖</div><div class="cara dorso">${m}</div></div></div>`).join('');
+document.querySelectorAll('.carta').forEach(c => c.addEventListener('click', e => {
+  c.classList.toggle('abierta');
+  burst(e.clientX, e.clientY, 5);
+}));
+
+// Razones
+let ri = -1;
+$('#btnRazon').onclick = e => {
+  let n; do { n = Math.floor(Math.random()*CONFIG.razones.length) } while (n === ri && CONFIG.razones.length > 1);
+  ri = n;
+  $('#razon').textContent = "💗 " + CONFIG.razones[n];
+  burst(e.clientX, e.clientY, 8);
+};
+
+// Fotos
+function vacia(msg){ return `<div class="vacia"><i>📷</i>${msg}</div>`; }
+$('#galeria').innerHTML = CONFIG.fotos.map((f,i) =>
+  `<div class="foto" data-i="${i}"><img src="${f.src}" alt="${f.texto}" onerror="this.outerHTML=vacia('Agrega tu foto en<br>${f.src}')"><p>${f.texto}</p></div>`).join('');
+document.querySelectorAll('.foto').forEach(el => el.addEventListener('click', () => {
+  const img = el.querySelector('img'); if (!img) return;
+  $('#lbImg').src = img.src; $('#lbTxt').textContent = CONFIG.fotos[el.dataset.i].texto;
+  $('#lb').classList.add('on');
+}));
+$('#lb').onclick = () => $('#lb').classList.remove('on');
+
+// Videos
+$('#videosBox').innerHTML = CONFIG.videos.map(v =>
+  `<div class="vid"><video controls playsinline preload="metadata" src="${v.src}" onerror="this.outerHTML=vacia('Agrega tu video en<br>${v.src}')"></video><p>${v.texto}</p></div>`).join('');
+
+// Final
+$('#grande').textContent = CONFIG.mensajeFinal;
+$('#btnFinal').onclick = e => {
+  $('#sorpresa').innerHTML = `<span class="script" style="font-size:2rem;color:var(--rosa)">${CONFIG.sorpresa}</span>`;
+  burst(e.clientX, e.clientY, 30);
+  lluvia();
+};
+
+// Corazones al tocar
+function burst(x, y, n){
+  const emo = ['💖','💗','💕','💘','✨','🌸'];
+  for (let i=0;i<n;i++){
+    const h = document.createElement('div');
+    h.className = 'heart-pop'; h.textContent = emo[Math.floor(Math.random()*emo.length)];
+    h.style.left = (x + (Math.random()-.5)*120) + 'px';
+    h.style.top = (y + (Math.random()-.5)*60) + 'px';
+    h.style.animationDelay = (Math.random()*.3)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), 1700);
+  }
+}
+function lluvia(){ for(let i=0;i<8;i++) setTimeout(()=>burst(Math.random()*innerWidth, innerHeight*.8, 6), i*250); }
+
+// Corazones flotando de fondo
+const cv = $('#hearts'), cx = cv.getContext('2d');
+function resize(){ cv.width = innerWidth; cv.height = innerHeight }
+resize(); addEventListener('resize', resize);
+const hs = Array.from({length:28}, () => nuevo(true));
+function nuevo(rand){
+  return { x:Math.random()*innerWidth, y: rand ? Math.random()*innerHeight : innerHeight+30,
+           s:10+Math.random()*22, v:.3+Math.random()*.8, o:.15+Math.random()*.35, d:Math.random()*6 };
+}
+(function loop(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  hs.forEach((h,i)=>{
+    h.y -= h.v; h.d += .02; const x = h.x + Math.sin(h.d)*20;
+    cx.globalAlpha = h.o; cx.font = h.s+'px serif'; cx.fillText('❤', x, h.y);
+    if (h.y < -30) hs[i] = nuevo(false);
+  });
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
